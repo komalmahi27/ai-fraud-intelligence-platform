@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi import UploadFile
 from fastapi import File
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 import shutil
 import traceback
@@ -60,15 +61,11 @@ agent_progress = []
 # ==================================================
 
 @app.get("/")
-def home():
+async def home():
 
-    return {
-
-        "message":
-        "AI Fraud Intelligence Server Running"
-
-    }
-
+    return FileResponse(
+        "frontend/index.html"
+    )
 
 # ==================================================
 # AGENT STATUS ROUTE
