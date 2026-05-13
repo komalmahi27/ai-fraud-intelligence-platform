@@ -42,9 +42,12 @@ app.add_middleware(
 # OPENROUTER API KEY
 # ==================================================
 
-OPENROUTER_API_KEY = "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"
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 # ==================================================
 # GLOBAL AGENT TRACKER
 # ==================================================
