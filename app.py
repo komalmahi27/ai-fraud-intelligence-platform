@@ -149,7 +149,7 @@ def analyze_dataset(
         validation_summary = (
             validation_agent.validation_summary()
         )
-
+        print("VALIDATION SUMMARY GENERATED")
         # UPDATE STATUS
 
         agent_progress.remove(
@@ -180,6 +180,7 @@ def analyze_dataset(
         kpi_summary = (
             kpi_agent.kpi_summary()
         )
+        print("KPI SUMMARY GENERATED")
 
         # UPDATE STATUS
 
@@ -218,6 +219,7 @@ def analyze_dataset(
             .intelligence_summary()
 
         )
+        print("INTELLIGENCE SUMMARY GENERATED")
 
         # UPDATE STATUS
 
@@ -230,6 +232,7 @@ def analyze_dataset(
         )
 
         print("[RISK INTELLIGENCE AGENT COMPLETED]")
+        print("STARTING EXECUTIVE AI")
 
 
         # ==========================================
@@ -262,6 +265,7 @@ def analyze_dataset(
                 .generate_ai_recommendations()
 
             )
+            print("EXECUTIVE AI RESPONSE GENERATED")
 
         except Exception as e:
 
@@ -301,6 +305,7 @@ def analyze_dataset(
         latest_fraud_context["ai_recommendations"] = (
             ai_recommendations
         )
+        
 
 
         # ==========================================
