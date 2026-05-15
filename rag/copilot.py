@@ -1,15 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-from openai import OpenAI
 
-from rag.retriever import (
-    retrieve_relevant_chunks
-)
-
-from rag.prompt_builder import (
-    build_copilot_prompt
-)
 
 # ==========================================
 # LOAD ENV VARIABLES
@@ -23,16 +15,6 @@ OPENROUTER_API_KEY = os.getenv(
 
 
 # ==========================================
-# OPENROUTER CLIENT
-# ==========================================
-
-client = OpenAI(
-    api_key=OPENROUTER_API_KEY,
-    base_url="https://openrouter.ai/api/v1"
-)
-
-
-# ==========================================
 # COPILOT RESPONSE FUNCTION
 # ==========================================
 
@@ -41,6 +23,34 @@ def generate_copilot_response(
     fraud_analytics,
     ai_recommendations
 ):
+
+    # ======================================
+    # LAZY IMPORTS
+    # ======================================
+
+    from openai import OpenAI
+
+    from rag.retriever import (
+        retrieve_relevant_chunks
+    )
+
+    from rag.prompt_builder import (
+        build_copilot_prompt
+    )
+
+
+    # ======================================
+    # OPENROUTER CLIENT
+    # ======================================
+
+    client = OpenAI(
+
+        api_key=OPENROUTER_API_KEY,
+
+        base_url="https://openrouter.ai/api/v1"
+
+    )
+
 
     # ======================================
     # RETRIEVE KNOWLEDGE
@@ -56,10 +66,15 @@ def generate_copilot_response(
     # ======================================
 
     final_prompt = build_copilot_prompt(
+
         user_question,
+
         retrieved_chunks,
+
         fraud_analytics,
+
         ai_recommendations
+
     )
 
 
@@ -68,13 +83,22 @@ def generate_copilot_response(
     # ======================================
 
     response = client.chat.completions.create(
+
         model="openai/gpt-4o-mini",
+
         messages=[
+
             {
+
                 "role": "user",
+
                 "content": final_prompt
+
             }
+
         ]
+
     )
+
 
     return response.choices[0].message.content
