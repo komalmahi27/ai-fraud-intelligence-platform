@@ -39,7 +39,7 @@ class ValidationAgent:
 
         try:
 
-            self.df = pd.read_csv(self.file_path)
+            self.df = pd.read_csv(self.file_path,nrows=50000)
 
             return True
 

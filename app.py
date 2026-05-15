@@ -11,9 +11,6 @@ from agents.validation_agent import ValidationAgent
 from agents.kpi_agent import KPIAgent
 from agents.risk_agent import IntelligenceAgent
 from agents.executive_ai_agent import ExecutiveAIAgent
-from rag.copilot import (
-    generate_copilot_response
-)
 
 # ==================================================
 # FASTAPI INITIALIZATION
@@ -434,7 +431,7 @@ def copilot_query(
     question: dict
 
 ):
-
+    from rag.copilot import generate_copilot_response
     user_question = question[
 
         "question"
