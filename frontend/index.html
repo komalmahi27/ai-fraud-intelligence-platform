@@ -856,7 +856,7 @@ async function runAnalysis() {
 
     const apiPromise =
         fetch(
-            "http://127.0.0.1:8000/analyze-dataset",
+            "https://ai-fraud-intelligence-platform.onrender.com/analyze-dataset",
             {
 
                 method: "POST",
@@ -874,7 +874,7 @@ async function runAnalysis() {
 
                 const response =
                     await fetch(
-                        "http://127.0.0.1:8000/agent-status"
+                        "https://ai-fraud-intelligence-platform.onrender.com/agent-status"
                     );
 
                 const statusData =
@@ -959,7 +959,7 @@ async function runAnalysis() {
 
     const finalStatusResponse =
         await fetch(
-            "http://127.0.0.1:8000/agent-status"
+            "https://ai-fraud-intelligence-platform.onrender.com/agent-status"
         );
 
     const finalStatusData =
@@ -1299,7 +1299,7 @@ async function askCopilot() {
     try {
 
         const response = await fetch(
-            "http://127.0.0.1:8000/copilot-query",
+            "https://ai-fraud-intelligence-platform.onrender.com/copilot-query",
             {
                 method: "POST",
                 headers: {
