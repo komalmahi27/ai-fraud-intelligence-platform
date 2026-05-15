@@ -11,7 +11,9 @@ from agents.validation_agent import ValidationAgent
 from agents.kpi_agent import KPIAgent
 from agents.risk_agent import IntelligenceAgent
 from agents.executive_ai_agent import ExecutiveAIAgent
-
+from rag.copilot import (
+    generate_copilot_response
+)
 
 # ==================================================
 # FASTAPI INITIALIZATION
@@ -55,7 +57,13 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 agent_progress = []
 
+latest_fraud_context = {
 
+    "fraud_analytics": "",
+
+    "ai_recommendations": ""
+
+}
 # ==================================================
 # HOME ROUTE
 # ==================================================
@@ -285,6 +293,17 @@ def analyze_dataset(
             )
 
         print("[EXECUTIVE AI AGENT COMPLETED]")
+        # ==========================================
+        # STORE LIVE FRAUD CONTEXT
+        # ==========================================
+
+        latest_fraud_context["fraud_analytics"] = str(
+            intelligence_summary
+        )
+
+        latest_fraud_context["ai_recommendations"] = (
+            ai_recommendations
+        )
 
 
         # ==========================================
@@ -402,3 +421,52 @@ def analyze_dataset(
             str(e)
 
         }
+# ==================================================
+
+# AI COPILOT ROUTE
+
+# ==================================================
+
+@app.post("/copilot-query")
+
+def copilot_query(
+
+    question: dict
+
+):
+
+    user_question = question[
+
+        "question"
+
+    ]
+
+    fraud_analytics = latest_fraud_context[
+
+        "fraud_analytics"
+
+    ]
+
+    ai_recommendations = latest_fraud_context[
+
+        "ai_recommendations"
+
+    ]
+
+    ai_response = generate_copilot_response(
+
+        user_question,
+
+        fraud_analytics,
+
+        ai_recommendations
+
+    )
+
+    return {
+
+        "copilot_response":
+
+        ai_response
+
+    }

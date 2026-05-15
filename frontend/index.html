@@ -412,7 +412,192 @@
 
             border-radius: 20px;
         }
+/* ========================================== */
+/* ENTERPRISE AI COPILOT */
+/* ========================================== */
 
+.copilot-container {
+
+    margin-top: 40px;
+
+    background: linear-gradient(
+        135deg,
+        #0b1020,
+        #111827
+    );
+
+    border: 1px solid #1f2937;
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 0 25px rgba(0,255,255,0.08);
+}
+
+
+.copilot-header h2 {
+
+    color: #00e5ff;
+
+    margin-bottom: 10px;
+
+    font-size: 28px;
+}
+
+
+.copilot-header p {
+
+    color: #9ca3af;
+
+    margin-bottom: 20px;
+
+    font-size: 15px;
+}
+
+
+.copilot-chat-box {
+
+    background: #050816;
+
+    border: 1px solid #1f2937;
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    height: 350px;
+
+    overflow-y: auto;
+
+    margin-bottom: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+
+.user-message {
+
+    align-self: flex-end;
+
+    background: #2563eb;
+
+    color: white;
+
+    padding: 12px 16px;
+
+    border-radius: 15px;
+
+    max-width: 80%;
+
+    line-height: 1.5;
+}
+
+
+.ai-message {
+
+    align-self: flex-start;
+
+    background: #111827;
+
+    color: #e5e7eb;
+
+    padding: 12px 16px;
+
+    border-radius: 15px;
+
+    border: 1px solid #1f2937;
+
+    max-width: 80%;
+
+    line-height: 1.7;
+
+    white-space: pre-wrap;
+}
+.ai-message h3 {
+
+    color: #38bdf8;
+
+    margin-top: 18px;
+
+    margin-bottom: 12px;
+
+    font-size: 20px;
+}
+
+.copilot-input-section {
+
+    display: flex;
+
+    gap: 12px;
+}
+
+
+.copilot-input-section input {
+
+    flex: 1;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    border: 1px solid #374151;
+
+    background: #0f172a;
+
+    color: white;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+
+.copilot-input-section input:focus {
+
+    border-color: #00e5ff;
+
+    box-shadow:
+        0 0 10px rgba(0,229,255,0.2);
+}
+
+
+.copilot-input-section button {
+
+    padding: 14px 22px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #00c6ff,
+        #0072ff
+    );
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+.copilot-input-section button:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 0 15px rgba(0,198,255,0.4);
+}
         .footer {
 
             margin-top: 70px;
@@ -553,7 +738,60 @@
 </div>
 
     </div>
+<!-- ========================================== -->
+<!-- ENTERPRISE AI COPILOT -->
+<!-- ========================================== -->
 
+<div class="copilot-container">
+
+    <div class="copilot-header">
+
+        <h2>🤖 Enterprise Fraud AI Copilot</h2>
+
+        <p>
+            Ask fraud intelligence, compliance,
+            investigation, or risk-related questions.
+        </p>
+
+    </div>
+
+
+    <!-- CHAT AREA -->
+
+    <div id="copilotChatBox" class="copilot-chat-box">
+
+        <div class="ai-message">
+
+            Welcome to the Enterprise Fraud Intelligence Copilot.<br><br>
+
+            Ask questions like:<br>
+            • Why was this transaction flagged?<br>
+            • What fraud policy applies here?<br>
+            • What investigation action is recommended?
+
+        </div>
+
+    </div>
+
+
+    <!-- INPUT AREA -->
+
+    <div class="copilot-input-section">
+
+        <input
+            type="text"
+            id="copilotQuestion"
+            placeholder="Ask the Fraud AI Copilot..."
+        >
+
+
+        <button onclick="askCopilot()">
+            Ask AI
+        </button>
+
+    </div>
+
+</div>
     <div class="footer">
 
         <div id="timestamp"></div>
@@ -995,6 +1233,133 @@ async function runAnalysis() {
 
         data.ai_recommendations;
 
+}
+// ==========================================
+// ENTERPRISE AI COPILOT
+// ==========================================
+
+async function askCopilot() {
+
+    const questionInput = document.getElementById(
+        "copilotQuestion"
+    )
+
+    const chatBox = document.getElementById(
+        "copilotChatBox"
+    )
+
+
+    const question = questionInput.value.trim()
+
+
+    if (!question) {
+
+        alert("Please enter a question.")
+
+        return
+    }
+
+
+    // ======================================
+    // ADD USER MESSAGE
+    // ======================================
+
+    const userMessage = document.createElement("div")
+
+    userMessage.className = "user-message"
+
+    userMessage.innerText = question
+
+    chatBox.appendChild(userMessage)
+
+
+    // CLEAR INPUT
+
+    questionInput.value = ""
+
+
+    // ======================================
+    // LOADING MESSAGE
+    // ======================================
+
+    const loadingMessage = document.createElement("div")
+
+    loadingMessage.className = "ai-message"
+
+    loadingMessage.innerText = "AI Copilot is analyzing fraud intelligence..."
+
+    chatBox.appendChild(loadingMessage)
+
+
+    // AUTO SCROLL
+
+    chatBox.scrollTop = chatBox.scrollHeight
+
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/copilot-query",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    question: question
+                })
+            }
+        )
+
+
+        const data = await response.json()
+
+
+        // REMOVE LOADING MESSAGE
+
+        loadingMessage.remove()
+
+
+        // ==================================
+        // ADD AI RESPONSE
+        // ==================================
+
+        const aiMessage = document.createElement("div")
+
+        aiMessage.className = "ai-message"
+
+        aiMessage.innerHTML = data.copilot_response
+
+    .replace(/### (.*?)/g, "<h3>$1</h3>")
+
+    .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+
+    .replace(/\n/g, "<br>")
+
+        chatBox.appendChild(aiMessage)
+
+
+        // AUTO SCROLL
+
+        chatBox.scrollTop = chatBox.scrollHeight
+
+    }
+
+    catch (error) {
+
+        loadingMessage.remove()
+
+
+        const errorMessage = document.createElement("div")
+
+        errorMessage.className = "ai-message"
+
+        errorMessage.innerText = (
+            "Error connecting to Enterprise AI Copilot."
+        )
+
+        chatBox.appendChild(errorMessage)
+    }
 }
 
 document.getElementById(

@@ -3,3 +3,6 @@ data/
 temp_*
 __pycache__/
 .env
+rag/knowledge_base/
+.DS_Store
+*.pyc

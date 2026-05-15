@@ -46,3 +46,8 @@ cryptography==46.0.3
 
 h11==0.16.0
 websockets==16.0
+
+langchain
+sentence-transformers
+faiss-cpu
+PyPDF2
